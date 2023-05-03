@@ -19,44 +19,55 @@ const slides = [
 
 
 const banner = document.getElementById("banner");
-var bannerParagraphe = banner.querySelector("p");
-var dot = banner.getElementsByClassName("dot")
-
+const bannerParagraphe = banner.querySelector("p");
+const dotAll = banner.querySelectorAll(".dot");
+const dot = banner.getElementsByClassName("dot");
 var slideIndex = 0;
+
+
 
 function changeBannerLeft() {
 	let bannerImg = document.getElementsByClassName("banner-img")[0];
-	if (slideIndex == 0) {
-
-		slideIndex = 3;
+	if (slideIndex <= 0) {
+		slideIndex = 3;	
 	 } else {
 		slideIndex--;
 	 }
-	 bannerImg.src="./assets/images/slideshow/"+slides[slideIndex].image;
+	bannerImg.src="./assets/images/slideshow/"+slides[slideIndex].image;
 	let bannerTxt = bannerParagraphe[0];
 	bannerParagraphe.innerHTML = slides[slideIndex].tagLine;
-
 	
 	dot[slideIndex].classList.add("dot_selected");
-	dot[slideIndex + 1].classList.remove("dot_selected");
-
-	if (dot[slideIndex] = 3) {
+	let nextDot = dot[slideIndex].nextElementSibling;
+	if (nextDot <= 0) {
 		dot[0].classList.remove("dot_selected");
 	}
-	
+	else {
+	nextDot.classList.remove("dot_selected");
+	}
 }
 
 function changeBannerRight() {
 	let bannerImg = document.getElementsByClassName("banner-img")[0];
-	if (slideIndex == 3) {
+	if (slideIndex >= 3) {
 		slideIndex = 0;
 	 } else {
 		slideIndex++;
 	 }
-	 bannerImg.src="./assets/images/slideshow/"+slides[slideIndex].image;
-
+	bannerImg.src="./assets/images/slideshow/"+slides[slideIndex].image;
 	let bannerTxt = bannerParagraphe[0];
 	bannerParagraphe.innerHTML = slides[slideIndex].tagLine;
+
+	dot[slideIndex].classList.add("dot_selected");
+	let previousDot = dot[slideIndex].previousElementSibling;
+
+	// evidemment 0 et pas 3
+	if (previousDot >= 0) {
+		dot[3].classList.remove("dot_selected");
+	}
+	else {
+	previousDot.classList.remove("dot_selected");
+	}
 }
 
 
@@ -68,13 +79,6 @@ let arrowRight = document.querySelector('.arrow_right');
 arrowRight.addEventListener("click", changeBannerRight);
 
 function logToto(){console.log("Toto");}
-
-
-// function create a div
-// function addDiv() {
-// 	const newDiv = document.createElement("div");
-	
-// 	newDiv.classList.add("dot");}
 
 
 // variable qui selectionne la class dots
@@ -91,7 +95,8 @@ function createDivDot() {
 		// attribut la class "dot" a chaque nouvelle div
 		newDivDot.className = "dot"	;
 		if (i == 0) {
-			newDivDot.classList.add("dot_selected");
+			newDivDot.classList.add("dot_selected")
 		}	
 	}
 }
+
