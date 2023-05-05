@@ -17,51 +17,56 @@ const slides = [
 	}
 ];
 
-
+// déclaration des constante pour selectionner les elements necessaire
 const banner = document.getElementById("banner");
 const bannerParagraphe = banner.querySelector("p");
-const dotAll = banner.querySelectorAll(".dot");
 const dot = banner.getElementsByClassName("dot");
+
+// déclaration de la variable qui va permettre d'exploiter les elements de l'array "slides"
 var slideIndex = 0;
 
 
-
+// fonction quand on click sur la fleche gauche
 function changeBannerLeft() {
 	let bannerImg = document.getElementsByClassName("banner-img")[0];
 	if (slideIndex <= 0) {
-		slideIndex = 3;	
-	 } else {
+		slideIndex = slides.length - 1;	
+	} else {
 		slideIndex--;
-	 }
+	}
+	// changement de la src de l'image par le contenu de l'array slides selon son index
 	bannerImg.src="./assets/images/slideshow/"+slides[slideIndex].image;
-	let bannerTxt = bannerParagraphe[0];
+	//changement du paragraphe accompagnant l'image de la slide
 	bannerParagraphe.innerHTML = slides[slideIndex].tagLine;
 	
+	// ajout de la class "dot_selected" au bulletpoint actuel
 	dot[slideIndex].classList.add("dot_selected");
+	// variable qui selectionne le bulletpoint qui était selectionner précédemment
 	let nextDot = dot[slideIndex].nextElementSibling;
+	// condition qui permet d'enlever la class "dot_selected"de la premiere slide si on revient a la derniere slide
 	if (nextDot <= 0) {
 		dot[0].classList.remove("dot_selected");
 	}
+	// sinon elle enlève simplement la class "dot_selected" au bulletpoint selectionné précédement
 	else {
 	nextDot.classList.remove("dot_selected");
 	}
 }
 
+// fonction quand on click sur la fleche droite
 function changeBannerRight() {
 	let bannerImg = document.getElementsByClassName("banner-img")[0];
-	if (slideIndex >= 3) {
+	if (slideIndex >= slides.length - 1) {
 		slideIndex = 0;
 	 } else {
 		slideIndex++;
 	 }
 	bannerImg.src="./assets/images/slideshow/"+slides[slideIndex].image;
-	let bannerTxt = bannerParagraphe[0];
 	bannerParagraphe.innerHTML = slides[slideIndex].tagLine;
 
 	dot[slideIndex].classList.add("dot_selected");
 	let previousDot = dot[slideIndex].previousElementSibling;
 
-	// evidemment 0 et pas 3
 	if (previousDot >= 0) {
 		dot[3].classList.remove("dot_selected");
 	}
@@ -71,18 +76,25 @@ function changeBannerRight() {
 }
 
 
-
+// variable qui selectionne la fleche gauche par le nom de class
 let arrowLeft = document.querySelector('.arrow_left');
+// eventlistener au click qui fait appel a la fonction changeBannerLeft
 arrowLeft.addEventListener("click", changeBannerLeft); 
+
 
 let arrowRight = document.querySelector('.arrow_right');
 arrowRight.addEventListener("click", changeBannerRight);
 
+
+// fonction test
 function logToto(){console.log("Toto");}
 
 
 // variable qui selectionne la class dots
 let selectDots = document.querySelector(".dots");
+
+
+// permet de load ma fonction au chargement de la page
 window.addEventListener("load",createDivDot);
 
 
@@ -94,6 +106,7 @@ function createDivDot() {
 		selectDots.appendChild(newDivDot);
 		// attribut la class "dot" a chaque nouvelle div
 		newDivDot.className = "dot"	;
+		// permet de mettre la class dot_selected a la premiere div créer
 		if (i == 0) {
 			newDivDot.classList.add("dot_selected")
 		}	
