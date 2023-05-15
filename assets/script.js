@@ -21,6 +21,7 @@ const slides = [
 const banner = document.getElementById("banner");
 const bannerParagraphe = banner.querySelector("p");
 const dot = banner.getElementsByClassName("dot");
+const dotAll = banner.querySelectorAll(".dot");
 
 // déclaration de la variable qui va permettre d'exploiter les elements de l'array "slides"
 var slideIndex = 0;
@@ -28,51 +29,39 @@ var slideIndex = 0;
 
 // fonction quand on click sur la fleche gauche
 function changeBannerLeft() {
-	let bannerImg = document.getElementsByClassName("banner-img")[0];
+	
 	if (slideIndex <= 0) {
 		slideIndex = slides.length - 1;	
 	} else {
 		slideIndex--;
 	}
+	changeBanner();
+}
+
+
+// fonction quand on click sur la fleche droite
+function changeBannerRight() {
+	if (slideIndex >= slides.length - 1) {
+		slideIndex = 0;
+	} else {
+		slideIndex++;
+	}
+	changeBanner();
+}
+
+
+function changeBanner() {
+	let bannerImg = document.getElementsByClassName("banner-img")[0];
 	// changement de la src de l'image par le contenu de l'array slides selon son index
 	bannerImg.src="./assets/images/slideshow/"+slides[slideIndex].image;
 	//changement du paragraphe accompagnant l'image de la slide
 	bannerParagraphe.innerHTML = slides[slideIndex].tagLine;
 	
+	// enleve la class "dot_selected" au premier element qui contient la class "dot_selected"
+	document.querySelector(".dot_selected").classList.remove("dot_selected");
+
 	// ajout de la class "dot_selected" au bulletpoint actuel
 	dot[slideIndex].classList.add("dot_selected");
-	// variable qui selectionne le bulletpoint qui était selectionner précédemment
-	let nextDot = dot[slideIndex].nextElementSibling;
-	// condition qui permet d'enlever la class "dot_selected"de la premiere slide si on revient a la derniere slide
-	if (nextDot <= 0) {
-		dot[0].classList.remove("dot_selected");
-	}
-	// sinon elle enlève simplement la class "dot_selected" au bulletpoint selectionné précédement
-	else {
-	nextDot.classList.remove("dot_selected");
-	}
-}
-
-// fonction quand on click sur la fleche droite
-function changeBannerRight() {
-	let bannerImg = document.getElementsByClassName("banner-img")[0];
-	if (slideIndex >= slides.length - 1) {
-		slideIndex = 0;
-	 } else {
-		slideIndex++;
-	 }
-	bannerImg.src="./assets/images/slideshow/"+slides[slideIndex].image;
-	bannerParagraphe.innerHTML = slides[slideIndex].tagLine;
-
-	dot[slideIndex].classList.add("dot_selected");
-	let previousDot = dot[slideIndex].previousElementSibling;
-
-	if (previousDot >= 0) {
-		dot[3].classList.remove("dot_selected");
-	}
-	else {
-	previousDot.classList.remove("dot_selected");
-	}
 }
 
 
